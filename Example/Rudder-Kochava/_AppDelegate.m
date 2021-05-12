@@ -22,16 +22,51 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    NSString *WRITE_KEY = @"1pcZviVxgjd3rTUUmaTUBinGH0A";
-    NSString *DATA_PLANE_URL = @"https://fa4236d77f5c.ngrok.io";
+    NSString *WRITE_KEY = @"1sQKy1IwZtHx3WgMS7b9npXzRyq";
+    NSString *DATA_PLANE_URL = @"http://193.168.0.123:8080/";
     
     RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
     [configBuilder withDataPlaneUrl:DATA_PLANE_URL];
-    //[configBuilder withControlPlaneUrl:@"https://87d77a187bed.ngrok.io"];
-    [configBuilder withLoglevel:RSLogLevelDebug];
+    [configBuilder withControlPlaneUrl:@"https://29af06ed8710.ngrok.io"];
+    [configBuilder withLoglevel:RSLogLevelVerbose];
     [configBuilder withFactory:[RudderKochavaFactory instance]];
-    // [configBuilder withTrackLifecycleEvens:false];
+    [configBuilder withTrackLifecycleEvens:false];
     [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
+    
+    [[RSClient sharedInstance] track:@"Audio Played"
+       properties:@{@"browser": @"chrome",
+                    @"platform": @"youtube"
+       }];
+    [[RSClient sharedInstance] track:@"product added"
+       properties:@{@"name": @"Bag",
+                    @"store": @"amazon"
+       }];
+    [[RSClient sharedInstance] track:@"add to wishlist"
+       properties:@{@"name": @"shoes",
+                    @"store": @"myntra"
+       }];
+    [[RSClient sharedInstance] track:@"Order Completed" properties:@{
+            @"revenue" : @100,
+            @"orderId" : @"101",
+            @"currency" : @"USD",
+            @"products" : @[
+                    @{
+                        @"productId" : @"12##89",
+                        @"price" : @12,
+                        @"quantity" : @1
+                    },
+                    @{
+                        @"productId" : @"8900",
+                        @"price" : @21,
+                        @"quantity" : @3
+                    }
+            ]
+        }];
+    [[RSClient sharedInstance] screen:@"Welcome"
+                                       properties:@{@"name": @"Signup",
+                                                    @"path": @"/signup"
+                                       }];
+    
     return YES;
 }
 
