@@ -49,10 +49,10 @@
     [configBuilder withTrackLifecycleEvens:false];
     [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
 
-    [[RSClient sharedInstance] track:@"Push Notification Registered"
-       properties:@{@"browser": @"chrome",
-                    @"platform": @"youtube"
-       }];
+//    [[RSClient sharedInstance] track:@"Audio Played"
+//       properties:@{@"browser": @"chrome",
+//                    @"platform": @"youtube"
+//       }];
 //    [[RSClient sharedInstance] track:@"product added"
 //       properties:@{@"name": @"Bag",
 //                    @"store": @"amazon"

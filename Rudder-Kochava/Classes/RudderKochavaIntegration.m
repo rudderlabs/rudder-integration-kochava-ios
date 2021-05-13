@@ -19,11 +19,11 @@ static NSDictionary *eventsMapping;
 - (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(RSClient *)client withRudderConfig:(RSConfig *)rudderConfig {
     self = [super init];
     if (self) {
-        [RSLogger logDebug:@"Initializing Kochava SDK"];
+        [RSLogger logDebug:@"Initializing Kochava Factory"];
         [self setEventsMapping];
         dispatch_async(dispatch_get_main_queue(), ^{
             if(config == nil) {
-                [RSLogger logError:@"Config is null. Cannot send events."];
+                [RSLogger logError:@"Failed to Initialize Kochava Factory as Config is null"];
             }
             self.appGUID = config[@"apiKey"];
             if(self.appGUID!=nil)
@@ -36,14 +36,13 @@ static NSDictionary *eventsMapping;
                 {
                     [KVAAdNetworkProduct.shared register];
                 }
-                
                 [KVATracker.shared startWithAppGUIDString:self.appGUID];
                 [self setLogLevel : [rudderConfig logLevel]];
-                [RSLogger logDebug:@"Initialized Kochava SDK"];
+                [RSLogger logDebug:@"Initialized Kochava Factory"];
             }
             else
             {
-                [RSLogger logWarn:@"Failed to Initialize Kochava SDK"];
+                [RSLogger logWarn:@"Failed to Initialize Kochava Factory"];
             }
         });
     }
@@ -63,7 +62,7 @@ static NSDictionary *eventsMapping;
 }
 
 - (void)reset {
-    [RSLogger logDebug:@"Kochava doesn't support's Reset Call"];
+    [RSLogger logDebug:@"Kochava Factory doesn't support Reset Call"];
 }
 
 - (void) processRudderEvent: (nonnull RSMessage *) message {
@@ -117,13 +116,11 @@ static NSDictionary *eventsMapping;
 
 - (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSLog(@"registering for remote notifications");
     [KVAPushNotificationsToken addWithData:deviceToken];
 }
 
 - (void)receivedRemoteNotification:(NSDictionary *)userInfo withActionString:(NSString*) actionString
 {
-    NSLog(@"received remote notification");
     KVAEvent *event = [KVAEvent eventWithType:KVAEventType.pushOpened];
     event.payloadDictionary = userInfo;
     event.actionString = actionString;
