@@ -8,6 +8,7 @@
 #import "RudderKochavaIntegration.h"
 #import <Rudder/Rudder.h>
 #import <KochavaTrackeriOS/KochavaTracker.h>
+#import <KochavaAdNetworkiOS/KVAAdNetworkProduct.h>
 
 static NSDictionary *eventsMapping;
 
@@ -27,6 +28,15 @@ static NSDictionary *eventsMapping;
             self.appGUID = config[@"apiKey"];
             if(self.appGUID!=nil)
             {
+                if([[config objectForKey:@"appTrackingTransparency"] boolValue])
+                {
+                    KVATracker.shared.appTrackingTransparency.enabledBool= YES;
+                }
+                if([[config objectForKey:@"skAdNetwork"] boolValue])
+                {
+                    [KVAAdNetworkProduct.shared register];
+                }
+                
                 [KVATracker.shared startWithAppGUIDString:self.appGUID];
                 [self setLogLevel : [rudderConfig logLevel]];
                 [RSLogger logDebug:@"Initialized Kochava SDK"];
@@ -59,9 +69,10 @@ static NSDictionary *eventsMapping;
 - (void) processRudderEvent: (nonnull RSMessage *) message {
     NSString *type = message.type;
     if([type isEqualToString:@"track"]){
+        KVAEvent *event;
         if(eventsMapping[[message.event lowercaseString]])
         {
-            KVAEvent *event = [KVAEvent eventWithType:eventsMapping[[message.event lowercaseString]]];
+            event = [KVAEvent eventWithType:eventsMapping[[message.event lowercaseString]]];
             if([[message.event lowercaseString] isEqual:@"order completed"])
             {
                 if(message.properties[@"revenue"])
@@ -73,14 +84,16 @@ static NSDictionary *eventsMapping;
                     event.currencyString = (NSString*) message.properties[@"currency"];
                 }
             }
-            event.infoDictionary = message.properties;
-            [event send];
         }
         else{
-            KVAEvent *event = [KVAEvent customEventWithNameString:message.event];
-            event.infoDictionary = message.properties;
-            [event send];
+            event = [KVAEvent customEventWithNameString:message.event];
         }
+        if(message.properties)
+        {
+            event.infoDictionary = message.properties;
+        }
+        [event send];
+        
     }else if ([type isEqualToString:@"screen"]){
         NSString *screenName = message.event;
         NSDictionary *screenProperties = message.properties;
@@ -98,6 +111,23 @@ static NSDictionary *eventsMapping;
         [RSLogger logDebug:@"Kochava Integration: Message type not supported"];
     }
     
+}
+
+#pragma mark- Push Notification methods
+
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    NSLog(@"registering for remote notifications");
+    [KVAPushNotificationsToken addWithData:deviceToken];
+}
+
+- (void)receivedRemoteNotification:(NSDictionary *)userInfo withActionString:(NSString*) actionString
+{
+    NSLog(@"received remote notification");
+    KVAEvent *event = [KVAEvent eventWithType:KVAEventType.pushOpened];
+    event.payloadDictionary = userInfo;
+    event.actionString = actionString;
+    [event send];
 }
 
 #pragma mark - Utils

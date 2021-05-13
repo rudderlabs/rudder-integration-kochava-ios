@@ -9,7 +9,9 @@
 #import "_AppDelegate.h"
 #import <Rudder/Rudder.h>
 #import <RudderKochavaFactory.h>
+#import <RudderKochavaIntegration.h>
 #import <CoreLocation/CoreLocation.h>
+#import <UserNotifications/UserNotifications.h>
 
 @interface _AppDelegate () <CLLocationManagerDelegate>
 @property(nonatomic) CLLocationManager *locationManager;
@@ -25,47 +27,61 @@
     NSString *WRITE_KEY = @"1sQKy1IwZtHx3WgMS7b9npXzRyq";
     NSString *DATA_PLANE_URL = @"http://193.168.0.123:8080/";
     
+    // register for push notifications
+        UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate = self;
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
+                              completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            if (granted)
+            {
+                dispatch_async(dispatch_get_main_queue(), ^(void) {
+                    [[UIApplication sharedApplication] registerForRemoteNotifications];
+                });
+            }
+        }];
+    
+    
     RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
     [configBuilder withDataPlaneUrl:DATA_PLANE_URL];
     [configBuilder withControlPlaneUrl:@"https://29af06ed8710.ngrok.io"];
     [configBuilder withLoglevel:RSLogLevelVerbose];
-    [configBuilder withFactory:[RudderKochavaFactory instance]];
+   [configBuilder withFactory:[RudderKochavaFactory instance]];
     [configBuilder withTrackLifecycleEvens:false];
     [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
-    
-    [[RSClient sharedInstance] track:@"Audio Played"
+
+    [[RSClient sharedInstance] track:@"Push Notification Registered"
        properties:@{@"browser": @"chrome",
                     @"platform": @"youtube"
        }];
-    [[RSClient sharedInstance] track:@"product added"
-       properties:@{@"name": @"Bag",
-                    @"store": @"amazon"
-       }];
-    [[RSClient sharedInstance] track:@"add to wishlist"
-       properties:@{@"name": @"shoes",
-                    @"store": @"myntra"
-       }];
-    [[RSClient sharedInstance] track:@"Order Completed" properties:@{
-            @"revenue" : @100,
-            @"orderId" : @"101",
-            @"currency" : @"USD",
-            @"products" : @[
-                    @{
-                        @"productId" : @"12##89",
-                        @"price" : @12,
-                        @"quantity" : @1
-                    },
-                    @{
-                        @"productId" : @"8900",
-                        @"price" : @21,
-                        @"quantity" : @3
-                    }
-            ]
-        }];
-    [[RSClient sharedInstance] screen:@"Welcome"
-                                       properties:@{@"name": @"Signup",
-                                                    @"path": @"/signup"
-                                       }];
+//    [[RSClient sharedInstance] track:@"product added"
+//       properties:@{@"name": @"Bag",
+//                    @"store": @"amazon"
+//       }];
+//    [[RSClient sharedInstance] track:@"add to wishlist"
+//       properties:@{@"name": @"shoes",
+//                    @"store": @"myntra"
+//       }];
+//    [[RSClient sharedInstance] track:@"Order Completed" properties:@{
+//            @"revenue" : @100,
+//            @"orderId" : @"101",
+//            @"currency" : @"USD",
+//            @"products" : @[
+//                    @{
+//                        @"productId" : @"12##89",
+//                        @"price" : @12,
+//                        @"quantity" : @1
+//                    },
+//                    @{
+//                        @"productId" : @"8900",
+//                        @"price" : @21,
+//                        @"quantity" : @3
+//                    }
+//            ]
+//        }];
+//    [[RSClient sharedInstance] screen:@"Welcome"
+//                                       properties:@{@"name": @"Signup",
+//                                                    @"path": @"/signup"
+//                                       }];
     
     return YES;
 }
@@ -97,5 +113,21 @@
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    [[RudderKochavaIntegration alloc] registeredForRemoteNotificationsWithDeviceToken:deviceToken];
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler
+{
+    completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
+    [[RudderKochavaIntegration alloc] receivedRemoteNotification:response.notification.request.content.userInfo withActionString:response.actionIdentifier];
+}
+
 
 @end

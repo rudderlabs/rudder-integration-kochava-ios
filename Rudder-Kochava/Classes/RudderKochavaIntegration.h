@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *appGUID;
 
 -(instancetype)initWithConfig:(NSDictionary *)config withAnalytics:(RSClient *)client withRudderConfig:(RSConfig*) rudderCinfig;
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
+- (void)receivedRemoteNotification:(NSDictionary *)userInfo withActionString:(NSString*) actionString;
 
 @end
 
