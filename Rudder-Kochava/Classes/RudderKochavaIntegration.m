@@ -94,17 +94,15 @@ static NSDictionary *eventsMapping;
         [event send];
         
     }else if ([type isEqualToString:@"screen"]){
-        NSString *screenName = message.event;
-        NSDictionary *screenProperties = message.properties;
-        if(screenProperties)
+        if(message.properties)
         {
             [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
-                                                screenName] infoDictionary:screenProperties];
+                                                message.event] infoDictionary:message.properties];
         }
         else
         {
             [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
-                                                screenName]];
+                                                message.event]];
         }
     }else {
         [RSLogger logDebug:@"Kochava Integration: Message type not supported"];
@@ -133,27 +131,29 @@ static NSDictionary *eventsMapping;
     if(rsLogLevel == RSLogLevelVerbose)
     {
         KVALog.shared.level = KVALogLevel.trace;
+        return;
     }
-    else if(rsLogLevel == RSLogLevelDebug)
+    if(rsLogLevel == RSLogLevelDebug)
     {
         KVALog.shared.level = KVALogLevel.debug;
+        return;
     }
-    else if(rsLogLevel == RSLogLevelInfo)
+    if(rsLogLevel == RSLogLevelInfo)
     {
         KVALog.shared.level = KVALogLevel.info;
+        return;
     }
-    else if(rsLogLevel == RSLogLevelWarning)
+    if(rsLogLevel == RSLogLevelWarning)
     {
         KVALog.shared.level = KVALogLevel.warn;
+        return;
     }
-    else if(rsLogLevel == RSLogLevelError)
+    if(rsLogLevel == RSLogLevelError)
     {
         KVALog.shared.level = KVALogLevel.error;
+        return;
     }
-    else if(rsLogLevel == RSLogLevelNone)
-    {
-        KVALog.shared.level = KVALogLevel.never;
-    }
+    KVALog.shared.level = KVALogLevel.never;
 }
 
 -(void) setEventsMapping{
