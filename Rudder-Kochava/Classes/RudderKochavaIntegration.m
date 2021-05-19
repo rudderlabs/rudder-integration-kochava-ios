@@ -68,41 +68,83 @@ static NSDictionary *eventsMapping;
 - (void) processRudderEvent: (nonnull RSMessage *) message {
     NSString *type = message.type;
     if([type isEqualToString:@"track"]){
-        KVAEvent *event;
-        if(eventsMapping[[message.event lowercaseString]])
-        {
-            event = [KVAEvent eventWithType:eventsMapping[[message.event lowercaseString]]];
-            if([[message.event lowercaseString] isEqual:@"order completed"])
+        if(message.event) {
+            NSString* eventName = [message.event lowercaseString];
+            NSMutableDictionary<NSString*, NSObject*>* eventProperties = [message.properties mutableCopy];
+            KVAEvent *event;
+            if(eventsMapping[eventName])
             {
-                if(message.properties[@"revenue"])
+                event = [KVAEvent eventWithType:eventsMapping[eventName]];
+                if(eventProperties)
                 {
-                    event.priceDoubleNumber = (NSNumber*)message.properties[@"revenue"];
-                }
-                if(message.properties[@"currency"])
-                {
-                    event.currencyString = (NSString*) message.properties[@"currency"];
+                    if([eventName isEqual:@"order completed"])
+                    {
+                        [self setProductsProperties:eventProperties withEvent:event];
+                        if(eventProperties[@"revenue"])
+                        {
+                            event.priceDoubleNumber = (NSNumber*)eventProperties[@"revenue"];
+                            [eventProperties removeObjectForKey:@"revenue"];
+                        }
+                        eventProperties = [self setCurrency:eventProperties withEvent:event];
+                    }
+                    if([eventName isEqual:@"product added"])
+                    {
+                        
+                        eventProperties = [self setProductProperties:eventProperties withEvent:event];
+                        if(eventProperties[@"quantity"])
+                        {
+                            event.quantityDoubleNumber = (NSNumber*)eventProperties[@"quantity"];
+                            [eventProperties removeObjectForKey:@"quantity"];
+                        }
+                    }
+                    if([eventName isEqual:@"add to wishlist"])
+                    {
+                        eventProperties = [self setProductProperties:eventProperties withEvent:event];
+                    }
+                    if([eventName isEqual:@"checkout started"])
+                    {
+                        [self setProductsProperties:eventProperties withEvent:event];
+                        eventProperties = [self setCurrency:eventProperties withEvent:event];
+                    }
+                    if([eventName isEqual:@"product reviewed"])
+                    {
+                        if(eventProperties[@"rating"])
+                        {
+                            event.ratingValueDoubleNumber = (NSNumber*)eventProperties[@"rating"];
+                            [eventProperties removeObjectForKey:@"rating"];
+                        }
+                    }
+                    if([eventName isEqual:@"products searched"])
+                    {
+                        if(eventProperties[@"query"])
+                        {
+                            event.uriString = (NSString*) eventProperties[@"query"];
+                            [eventProperties removeObjectForKey:@"query"];
+                        }
+                    }
                 }
             }
+            else{
+                event = [KVAEvent customEventWithNameString:message.event];
+            }
+            if(eventProperties)
+            {
+                event.infoDictionary = eventProperties;
+            }
+            [event send];
         }
-        else{
-            event = [KVAEvent customEventWithNameString:message.event];
-        }
-        if(message.properties)
-        {
-            event.infoDictionary = message.properties;
-        }
-        [event send];
-        
     }else if ([type isEqualToString:@"screen"]){
-        if(message.properties)
-        {
-            [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
-                                                message.event] infoDictionary:message.properties];
-        }
-        else
-        {
-            [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
-                                                message.event]];
+        if(message.event) {
+            if(message.properties)
+            {
+                [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
+                                                    message.event] infoDictionary:message.properties];
+            }
+            else
+            {
+                [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
+                                                    message.event]];
+            }
         }
     }else {
         [RSLogger logDebug:@"Kochava Integration: Message type not supported"];
@@ -154,6 +196,84 @@ static NSDictionary *eventsMapping;
         return;
     }
     KVALog.shared.level = KVALogLevel.never;
+}
+
+-(NSMutableDictionary*) setCurrency:(NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
+    if(eventProperties[@"currency"])
+    {
+        event.currencyString = (NSString*)eventProperties[@"currency"];
+        [eventProperties removeObjectForKey:@"currency"];
+    }
+    return eventProperties;
+}
+
+
+-(NSMutableDictionary*) setProductProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event{
+    if(eventProperties[@"name"])
+    {
+        event.nameString = (NSString*)eventProperties[@"name"];
+        [eventProperties removeObjectForKey:@"name"];
+    }
+    if(eventProperties[@"product_id"])
+    {
+        event.contentIdString = (NSString*)eventProperties[@"product_id"];
+        [eventProperties removeObjectForKey:@"product_id"];
+        return eventProperties;
+    }
+    if(eventProperties[@"productId"])
+    {
+        event.contentIdString = (NSString*)eventProperties[@"productId"];
+        [eventProperties removeObjectForKey:@"productId"];
+    }
+    return eventProperties;
+}
+
+-(void) setProductsProperties: (NSDictionary*) eventProperties withEvent: (KVAEvent*) event {
+    if(eventProperties[@"products"])
+    {
+        NSArray *products = eventProperties[@"products"];
+        NSString* productNames = [self getProductProperties:products type:@"name"];
+        if(productNames)
+        {
+            event.nameString = productNames;
+        }
+        NSString* productIds = [self getProductProperties:products type:@"product_id"];
+        if(productIds)
+        {
+            event.contentIdString = productIds;
+        }
+    }
+}
+
+- (NSString*) getProductProperties: (NSArray*) products type:(NSString*) type
+{
+    NSMutableArray<NSString*>* productProperties = [[NSMutableArray alloc] init];
+    if(products)
+    {
+        for(NSDictionary *product in products)
+        {
+            if(product[type])
+            {
+                [productProperties addObject:product[type]];
+            }
+            if([type isEqual:@"product_id"] && product[@"productId"])
+            {
+                [productProperties addObject:product[@"productId"]];
+            }
+        }
+    }
+    return [self getJsonString:productProperties];
+}
+
+-(NSString*) getJsonString:(NSMutableArray<NSString*>*) mutableArray {
+    if(![mutableArray count])
+    {
+        return nil;
+    }
+    NSError* error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:mutableArray options:NSJSONWritingPrettyPrinted error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return jsonString;
 }
 
 -(void) setEventsMapping{

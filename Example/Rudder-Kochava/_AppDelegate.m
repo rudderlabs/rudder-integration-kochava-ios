@@ -24,65 +24,100 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    NSString *WRITE_KEY = @"1sQKy1IwZtHx3WgMS7b9npXzRyq";
+    NSString *WRITE_KEY = @"1shL9hswhzo3C0oAIfrnz8cMbjU";
     NSString *DATA_PLANE_URL = @"http://193.168.0.123:8080/";
     
     // register for push notifications
-        UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-        center.delegate = self;
-        [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
-                              completionHandler:^(BOOL granted, NSError * _Nullable error) {
-            if (granted)
-            {
-                dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    [[UIApplication sharedApplication] registerForRemoteNotifications];
-                });
-            }
-        }];
+    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge)
+                          completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        if (granted)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+            });
+        }
+    }];
     
     
     RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
-    [configBuilder withDataPlaneUrl:DATA_PLANE_URL];
-    [configBuilder withControlPlaneUrl:@"https://29af06ed8710.ngrok.io"];
+    //[configBuilder withDataPlaneUrl:DATA_PLANE_URL];
+    [configBuilder withControlPlaneUrl:@"https://85e41da19581.ngrok.io"];
     [configBuilder withLoglevel:RSLogLevelVerbose];
-   [configBuilder withFactory:[RudderKochavaFactory instance]];
+    [configBuilder withFactory:[RudderKochavaFactory instance]];
     [configBuilder withTrackLifecycleEvens:false];
     [RSClient getInstance:WRITE_KEY config:[configBuilder build]];
-
-//    [[RSClient sharedInstance] track:@"Audio Played"
-//       properties:@{@"browser": @"chrome",
-//                    @"platform": @"youtube"
-//       }];
-//    [[RSClient sharedInstance] track:@"product added"
-//       properties:@{@"name": @"Bag",
-//                    @"store": @"amazon"
-//       }];
-//    [[RSClient sharedInstance] track:@"add to wishlist"
-//       properties:@{@"name": @"shoes",
-//                    @"store": @"myntra"
-//       }];
-//    [[RSClient sharedInstance] track:@"Order Completed" properties:@{
-//            @"revenue" : @100,
-//            @"orderId" : @"101",
-//            @"currency" : @"USD",
-//            @"products" : @[
-//                    @{
-//                        @"productId" : @"12##89",
-//                        @"price" : @12,
-//                        @"quantity" : @1
-//                    },
-//                    @{
-//                        @"productId" : @"8900",
-//                        @"price" : @21,
-//                        @"quantity" : @3
-//                    }
-//            ]
-//        }];
-//    [[RSClient sharedInstance] screen:@"Welcome"
-//                                       properties:@{@"name": @"Signup",
-//                                                    @"path": @"/signup"
-//                                       }];
     
+    //    [[RSClient sharedInstance] track:@"Audio Played"
+    //       properties:@{@"browser": @"chrome",
+    //                    @"platform": @"youtube"
+    //       }];
+    //    [[RSClient sharedInstance] track:@"Product Added"
+    //       properties:@{@"name": @"Bag",
+    //                    @"productId" : @101,
+    //                    @"quantity" : @10,
+    //                    @"store": @"amazon"
+    //       }];
+    //
+    //    [[RSClient sharedInstance] track:@"Add To Wishlist"
+    //       properties:@{@"name": @"Spects",
+    //                        @"product_id" : @"102",
+    //                        @"quantity" : @"11",
+    //                        @"store": @"amazon"
+    //       }];
+    //    [[RSClient sharedInstance] track:@"Products Searched"
+    //       properties:@{@"query": @"graph"
+    //       }];
+    //    [[RSClient sharedInstance] track:@"Product Reviewed"
+    //       properties:@{@"product_id": @"12345",
+    //                    @"review_id": @"review12",
+    //                    @"review_body": @"Good product, delivered in excellent condition",
+    //                    @"rating": @"5"
+    //       }];
+    [[RSClient sharedInstance] track:@"Order Completed" properties:@{
+        @"revenue" : @100,
+        @"orderId" : @"199",
+        @"currency" : @"USD",
+        @"products" : @[
+                @{
+                    @"productId" : @"4011",
+                    @"name": @"Shirt",
+                    @"price" : @12,
+                    @"quantity" : @1
+                },
+                @{
+                    @"product_id" : @"4012",
+                    @"name": @"short",
+                    @"price" : @21,
+                    @"quantity" : @3
+                }
+        ]
+    }];
+    
+    //        [[RSClient sharedInstance] track:@"Checkout Started" properties:@{
+    //            @"revenue" : @112,
+    //            @"orderId" : @"201",
+    //            @"currency" : @"USD",
+    //            @"products" : @[
+    //                    @{
+    //                        @"product_id" : @"4009",
+    //                        @"name": @"brush",
+    //                        @"price" : @12,
+    //                        @"quantity" : @1
+    //                    },
+    //                    @{
+    //                        @"productId" : @"4010",
+    //                        @"name": @"paste",
+    //                        @"price" : @21,
+    //                        @"quantity" : @3
+    //                    }
+    //            ]
+    //        }];
+    //    [[RSClient sharedInstance] screen:@"Welcome"
+    //                                       properties:@{@"name": @"Signup",
+    //                                                    @"path": @"/signup"
+    //                                       }];
     return YES;
 }
 
