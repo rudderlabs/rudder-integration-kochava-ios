@@ -164,7 +164,6 @@ static NSDictionary *eventsMapping;
     {
         [RSLogger logDebug:@"Kochava Integration: Message type not supported"];
     }
-    
 }
 
 #pragma mark- Push Notification methods
