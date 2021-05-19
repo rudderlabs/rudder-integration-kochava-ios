@@ -18,13 +18,16 @@ static NSDictionary *eventsMapping;
 
 - (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(RSClient *)client withRudderConfig:(RSConfig *)rudderConfig {
     self = [super init];
-    if (self) {
+    if (self)
+    {
         [RSLogger logDebug:@"Initializing Kochava Factory"];
         [self setEventsMapping];
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(config == nil) {
+            if(config == nil)
+            {
                 [RSLogger logError:@"Failed to Initialize Kochava Factory as Config is null"];
             }
+            
             self.appGUID = config[@"apiKey"];
             if(self.appGUID!=nil)
             {
@@ -50,13 +53,17 @@ static NSDictionary *eventsMapping;
 }
 
 - (void) dump:(RSMessage *)message {
-    @try {
-        if (message != nil) {
+    @try
+    {
+        if (message != nil)
+        {
             dispatch_async(dispatch_get_main_queue(),^{
                 [self processRudderEvent:message];
             });
         }
-    } @catch (NSException *ex) {
+    }
+    @catch (NSException *ex)
+    {
         [RSLogger logError:[[NSString alloc] initWithFormat:@"%@", ex]];
     }
 }
@@ -67,24 +74,27 @@ static NSDictionary *eventsMapping;
 
 - (void) processRudderEvent: (nonnull RSMessage *) message {
     NSString *type = message.type;
-    if([type isEqualToString:@"track"]){
+    if ([type isEqualToString:@"track"])
+    {
         KVAEvent *event;
-        if(eventsMapping[[message.event lowercaseString]])
+        if (eventsMapping[[message.event lowercaseString]])
         {
             event = [KVAEvent eventWithType:eventsMapping[[message.event lowercaseString]]];
-            if([[message.event lowercaseString] isEqual:@"order completed"])
+            if ([[message.event lowercaseString] isEqual:@"order completed"])
             {
                 if(message.properties[@"revenue"])
                 {
                     event.priceDoubleNumber = (NSNumber*)message.properties[@"revenue"];
                 }
+    
                 if(message.properties[@"currency"])
                 {
                     event.currencyString = (NSString*) message.properties[@"currency"];
                 }
             }
         }
-        else{
+        else
+        {
             event = [KVAEvent customEventWithNameString:message.event];
         }
         if(message.properties)
@@ -92,9 +102,10 @@ static NSDictionary *eventsMapping;
             event.infoDictionary = message.properties;
         }
         [event send];
-        
-    }else if ([type isEqualToString:@"screen"]){
-        if(message.properties)
+    }
+    else if ([type isEqualToString:@"screen"])
+    {
+        if (message.properties)
         {
             [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
                                                 message.event] infoDictionary:message.properties];
@@ -104,10 +115,11 @@ static NSDictionary *eventsMapping;
             [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
                                                 message.event]];
         }
-    }else {
+    }
+    else
+    {
         [RSLogger logDebug:@"Kochava Integration: Message type not supported"];
     }
-    
 }
 
 #pragma mark- Push Notification methods
