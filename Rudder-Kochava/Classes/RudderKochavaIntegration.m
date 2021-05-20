@@ -294,7 +294,7 @@ static NSDictionary *eventsMapping;
     eventsMapping =
     @{
         @"product added": KVAEventType.addToCart,
-        @"add to wishlist": KVAEventType.addToWishList,
+        @"product added to wishlist": KVAEventType.addToWishList,
         @"checkout started": KVAEventType.checkoutStart,
         @"order completed": KVAEventType.purchase,
         @"product reviewed": KVAEventType.rating,
