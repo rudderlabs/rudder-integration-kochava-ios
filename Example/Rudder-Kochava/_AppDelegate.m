@@ -60,7 +60,7 @@
     //                    @"store": @"amazon"
     //       }];
     //
-    //    [[RSClient sharedInstance] track:@"Add To Wishlist"
+    //    [[RSClient sharedInstance] track:@"product added to wishlist"
     //       properties:@{@"name": @"Spects",
     //                        @"product_id" : @"102",
     //                        @"quantity" : @"11",

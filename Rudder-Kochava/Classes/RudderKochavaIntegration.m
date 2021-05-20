@@ -106,7 +106,7 @@ static NSDictionary *eventsMapping;
                             [eventProperties removeObjectForKey:@"quantity"];
                         }
                     }
-                    if ([eventName isEqual:@"add to wishlist"])
+                    if ([eventName isEqual:@"product added to wishlist"])
                     {
                         eventProperties = [self setProductProperties:eventProperties withEvent:event];
                     }
