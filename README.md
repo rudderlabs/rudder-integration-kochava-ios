@@ -10,8 +10,7 @@ More information on RudderStack can be found [here](https://github.com/rudderlab
 
 1. Add Kochava as destination from Rudder Dashboard and fill in the required details.
 
-2. Rudder-Kochava is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+2. Rudder-Kochava is available through [CocoaPods](https://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
 pod 'Rudder-Kochava'
@@ -22,9 +21,9 @@ pod 'Rudder-Kochava'
 Put this code in your ```AppDelegate.m``` file under the method ```didFinishLaunchingWithOptions```
 ```
 RSConfigBuilder *builder = [[RSConfigBuilder alloc] init];
-[builder withDataPlaneUrl:<YOUR_DATA_PLANE_URL>];
+[builder withDataPlaneUrl:DATA_PLANE_URL];
 [builder withFactory:[RudderKochavaFactory instance]];
-[RSClient getInstance:<YOUR_WRITE_KEY> config:[builder build]];
+[RSClient getInstance:WRITE_KEY config:[builder build]];
 ```
 
 ## Send Events
