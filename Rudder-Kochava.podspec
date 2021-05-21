@@ -24,4 +24,7 @@ Rudder is a platform for collecting, storing and routing customer event data to 
   s.static_framework = true
 
   s.dependency 'Rudder'
+  s.dependency 'KochavaTrackeriOS', '~> 4.6.1'
+  s.dependency 'KochavaAdNetworkiOS', '~> 4.6.1'
+
 end
