@@ -72,6 +72,10 @@ static NSDictionary *eventsMapping;
     [RSLogger logDebug:@"Kochava Factory doesn't support Reset Call"];
 }
 
+- (void)flush {
+    
+}
+
 - (void) processRudderEvent: (nonnull RSMessage *) message {
     NSString *type = message.type;
     if ([type isEqualToString:@"track"])
@@ -170,7 +174,7 @@ static NSDictionary *eventsMapping;
 
 - (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    [KVAPushNotificationsToken addWithData:deviceToken];
+    [KVAPushNotificationsToken registerWithData:deviceToken];
 }
 
 - (void)receivedRemoteNotification:(NSDictionary *)userInfo withActionString:(NSString*) actionString
