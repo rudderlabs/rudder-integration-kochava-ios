@@ -246,7 +246,7 @@ static NSDictionary *eventsMapping;
     return eventProperties;
 }
 
--(void) setProductsProperties: (NSDictionary*) eventProperties withEvent: (KVAEvent*) event {
+-(void) setProductsProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
     if (eventProperties[@"products"])
     {
         NSArray *products = eventProperties[@"products"];
@@ -260,6 +260,7 @@ static NSDictionary *eventsMapping;
         {
             event.contentIdString = productIds;
         }
+        [eventProperties removeObjectForKey:@"products"];
     }
 }
 
