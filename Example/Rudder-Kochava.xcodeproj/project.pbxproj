@@ -21,9 +21,11 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
-		7F7F936471BF5F8D3005AE41 /* Pods_Rudder_Kochava_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 459B447B31E699824A7A58E3 /* Pods_Rudder_Kochava_Tests.framework */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9EACA14DD0B505109822B273 /* Pods_Rudder_Kochava_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43337BD6B6DE153511771809 /* Pods_Rudder_Kochava_Example.framework */; };
+		ED5EDCCC29EEFF07000203EE /* RudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED5EDCC929EEFF07000203EE /* RudderConfig.plist */; };
+		ED5EDCCD29EEFF07000203EE /* SampleRudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED5EDCCA29EEFF07000203EE /* SampleRudderConfig.plist */; };
+		ED5EDCCE29EEFF07000203EE /* RudderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EDCCB29EEFF07000203EE /* RudderConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,11 +41,8 @@
 /* Begin PBXFileReference section */
 		0B7A8ECE86964C498D1DAD44 /* Pods-Rudder-Kochava_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Kochava_Example.release.xcconfig"; path = "Target Support Files/Pods-Rudder-Kochava_Example/Pods-Rudder-Kochava_Example.release.xcconfig"; sourceTree = "<group>"; };
 		12F91D76530B3B279310D5C3 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
-		2320FE5EECC05063A59001A1 /* Pods-Rudder-Kochava_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Kochava_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Rudder-Kochava_Tests/Pods-Rudder-Kochava_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		40464C1DF088713795CA4177 /* Rudder-Kochava.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = "Rudder-Kochava.podspec"; path = "../Rudder-Kochava.podspec"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		43337BD6B6DE153511771809 /* Pods_Rudder_Kochava_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Kochava_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		459B447B31E699824A7A58E3 /* Pods_Rudder_Kochava_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Rudder_Kochava_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DCC105AB92B9EC5620070E0 /* Pods-Rudder-Kochava_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Kochava_Tests.release.xcconfig"; path = "Target Support Files/Pods-Rudder-Kochava_Tests/Pods-Rudder-Kochava_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* Rudder-Kochava_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rudder-Kochava_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -67,6 +66,24 @@
 		831BC2F8BAD46139600554C0 /* Pods-Rudder-Kochava_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Rudder-Kochava_Example.debug.xcconfig"; path = "Target Support Files/Pods-Rudder-Kochava_Example/Pods-Rudder-Kochava_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A5A6D50DF14C6F6409B28C0C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		ED5EDCB529EEFD5F000203EE /* CODEOWNERS */ = {isa = PBXFileReference; lastKnownFileType = text; name = CODEOWNERS; path = ../CODEOWNERS; sourceTree = "<group>"; };
+		ED5EDCB629EEFD5F000203EE /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CODE_OF_CONDUCT.md; path = ../CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
+		ED5EDCB729EEFD5F000203EE /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = CONTRIBUTING.md; path = ../CONTRIBUTING.md; sourceTree = "<group>"; };
+		ED5EDCB829EEFD5F000203EE /* package.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = package.json; path = ../package.json; sourceTree = "<group>"; };
+		ED5EDCBB29EEFD77000203EE /* deploy-cocoapods.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "deploy-cocoapods.yml"; sourceTree = "<group>"; };
+		ED5EDCBC29EEFD77000203EE /* notion-pr-sync.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "notion-pr-sync.yml"; sourceTree = "<group>"; };
+		ED5EDCBD29EEFD77000203EE /* check-pr-title.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "check-pr-title.yml"; sourceTree = "<group>"; };
+		ED5EDCBE29EEFD77000203EE /* publish-new-release.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "publish-new-release.yml"; sourceTree = "<group>"; };
+		ED5EDCBF29EEFD77000203EE /* manage-github-issue-for-outdated-pods.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "manage-github-issue-for-outdated-pods.yml"; sourceTree = "<group>"; };
+		ED5EDCC029EEFD77000203EE /* slack-notify.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "slack-notify.yml"; sourceTree = "<group>"; };
+		ED5EDCC129EEFD77000203EE /* build-and-quality-checks.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "build-and-quality-checks.yml"; sourceTree = "<group>"; };
+		ED5EDCC229EEFD77000203EE /* draft-new-release.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "draft-new-release.yml"; sourceTree = "<group>"; };
+		ED5EDCC329EEFD77000203EE /* pull_request_template.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = pull_request_template.md; sourceTree = "<group>"; };
+		ED5EDCC429EEFD77000203EE /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
+		ED5EDCC529EEFEDD000203EE /* Rudder-Kochava_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rudder-Kochava_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		ED5EDCC929EEFF07000203EE /* RudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RudderConfig.plist; sourceTree = "<group>"; };
+		ED5EDCCA29EEFF07000203EE /* SampleRudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleRudderConfig.plist; sourceTree = "<group>"; };
+		ED5EDCCB29EEFF07000203EE /* RudderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RudderConfig.swift; sourceTree = "<group>"; };
 		F65AEE83264C1D5700DA1A74 /* Rudder-Kochava_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rudder-Kochava_Example.entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,7 +106,6 @@
 				6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */,
 				6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */,
 				6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */,
-				7F7F936471BF5F8D3005AE41 /* Pods_Rudder_Kochava_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,7 +117,7 @@
 			children = (
 				F65AEE83264C1D5700DA1A74 /* Rudder-Kochava_Example.entitlements */,
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
-				6003F593195388D20070C39A /* Example for Rudder-Kochava */,
+				6003F593195388D20070C39A /* Rudder-Kochava */,
 				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
@@ -126,14 +142,14 @@
 				6003F591195388D20070C39A /* UIKit.framework */,
 				6003F5AF195388D20070C39A /* XCTest.framework */,
 				43337BD6B6DE153511771809 /* Pods_Rudder_Kochava_Example.framework */,
-				459B447B31E699824A7A58E3 /* Pods_Rudder_Kochava_Tests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		6003F593195388D20070C39A /* Example for Rudder-Kochava */ = {
+		6003F593195388D20070C39A /* Rudder-Kochava */ = {
 			isa = PBXGroup;
 			children = (
+				ED5EDCC829EEFF07000203EE /* RudderConfig */,
 				6003F59C195388D20070C39A /* _AppDelegate.h */,
 				6003F59D195388D20070C39A /* _AppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
@@ -142,8 +158,8 @@
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				ED5EDCC529EEFEDD000203EE /* Rudder-Kochava_Example-Bridging-Header.h */,
 			);
-			name = "Example for Rudder-Kochava";
 			path = "Rudder-Kochava";
 			sourceTree = "<group>";
 		};
@@ -180,9 +196,14 @@
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
-				40464C1DF088713795CA4177 /* Rudder-Kochava.podspec */,
-				12F91D76530B3B279310D5C3 /* README.md */,
+				ED5EDCB929EEFD77000203EE /* .github */,
+				ED5EDCB629EEFD5F000203EE /* CODE_OF_CONDUCT.md */,
+				ED5EDCB529EEFD5F000203EE /* CODEOWNERS */,
+				ED5EDCB729EEFD5F000203EE /* CONTRIBUTING.md */,
 				A5A6D50DF14C6F6409B28C0C /* LICENSE */,
+				ED5EDCB829EEFD5F000203EE /* package.json */,
+				12F91D76530B3B279310D5C3 /* README.md */,
+				40464C1DF088713795CA4177 /* Rudder-Kochava.podspec */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
@@ -192,10 +213,44 @@
 			children = (
 				831BC2F8BAD46139600554C0 /* Pods-Rudder-Kochava_Example.debug.xcconfig */,
 				0B7A8ECE86964C498D1DAD44 /* Pods-Rudder-Kochava_Example.release.xcconfig */,
-				2320FE5EECC05063A59001A1 /* Pods-Rudder-Kochava_Tests.debug.xcconfig */,
-				5DCC105AB92B9EC5620070E0 /* Pods-Rudder-Kochava_Tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		ED5EDCB929EEFD77000203EE /* .github */ = {
+			isa = PBXGroup;
+			children = (
+				ED5EDCC429EEFD77000203EE /* dependabot.yml */,
+				ED5EDCC329EEFD77000203EE /* pull_request_template.md */,
+				ED5EDCBA29EEFD77000203EE /* workflows */,
+			);
+			name = .github;
+			path = ../.github;
+			sourceTree = "<group>";
+		};
+		ED5EDCBA29EEFD77000203EE /* workflows */ = {
+			isa = PBXGroup;
+			children = (
+				ED5EDCC129EEFD77000203EE /* build-and-quality-checks.yml */,
+				ED5EDCBD29EEFD77000203EE /* check-pr-title.yml */,
+				ED5EDCBB29EEFD77000203EE /* deploy-cocoapods.yml */,
+				ED5EDCC229EEFD77000203EE /* draft-new-release.yml */,
+				ED5EDCBF29EEFD77000203EE /* manage-github-issue-for-outdated-pods.yml */,
+				ED5EDCBC29EEFD77000203EE /* notion-pr-sync.yml */,
+				ED5EDCBE29EEFD77000203EE /* publish-new-release.yml */,
+				ED5EDCC029EEFD77000203EE /* slack-notify.yml */,
+			);
+			path = workflows;
+			sourceTree = "<group>";
+		};
+		ED5EDCC829EEFF07000203EE /* RudderConfig */ = {
+			isa = PBXGroup;
+			children = (
+				ED5EDCC929EEFF07000203EE /* RudderConfig.plist */,
+				ED5EDCCA29EEFF07000203EE /* SampleRudderConfig.plist */,
+				ED5EDCCB29EEFF07000203EE /* RudderConfig.swift */,
+			);
+			path = RudderConfig;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,7 +279,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6003F5C2195388D20070C39A /* Build configuration list for PBXNativeTarget "Rudder-Kochava_Tests" */;
 			buildPhases = (
-				F226D298F5DC2E603D165387 /* [CP] Check Pods Manifest.lock */,
 				6003F5AA195388D20070C39A /* Sources */,
 				6003F5AB195388D20070C39A /* Frameworks */,
 				6003F5AC195388D20070C39A /* Resources */,
@@ -251,6 +305,7 @@
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
 						DevelopmentTeam = GTGKNDBD23;
+						LastSwiftMigration = 1430;
 					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
@@ -282,6 +337,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
+				ED5EDCCC29EEFF07000203EE /* RudderConfig.plist in Resources */,
+				ED5EDCCD29EEFF07000203EE /* SampleRudderConfig.plist in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
@@ -307,10 +364,14 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Rudder-Kochava_Example/Pods-Rudder-Kochava_Example-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Rudder/Rudder.framework",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Apple-Cocoapod-KochavaCore/KochavaCore.framework/KochavaCore",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Apple-Cocoapod-KochavaTracker/KochavaTracker.framework/KochavaTracker",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rudder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KochavaCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KochavaTracker.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -339,28 +400,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F226D298F5DC2E603D165387 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Rudder-Kochava_Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -369,6 +408,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* _AppDelegate.m in Sources */,
+				ED5EDCCE29EEFF07000203EE /* RudderConfig.swift in Sources */,
 				6003F5A7195388D20070C39A /* _ViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
 			);
@@ -467,7 +507,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -514,7 +554,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -526,14 +566,18 @@
 			baseConfigurationReference = 831BC2F8BAD46139600554C0 /* Pods-Rudder-Kochava_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rudder-Kochava_Example.entitlements";
 				DEVELOPMENT_TEAM = GTGKNDBD23;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Rudder-Kochava/Rudder-Kochava-Prefix.pch";
 				INFOPLIST_FILE = "Rudder-Kochava/Rudder-Kochava-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rudder-Kochava/Rudder-Kochava_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -544,14 +588,17 @@
 			baseConfigurationReference = 0B7A8ECE86964C498D1DAD44 /* Pods-Rudder-Kochava_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Rudder-Kochava_Example.entitlements";
 				DEVELOPMENT_TEAM = GTGKNDBD23;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Rudder-Kochava/Rudder-Kochava-Prefix.pch";
 				INFOPLIST_FILE = "Rudder-Kochava/Rudder-Kochava-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Rudder-Kochava/Rudder-Kochava_Example-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				WRAPPER_EXTENSION = app;
 			};
@@ -559,8 +606,8 @@
 		};
 		6003F5C3195388D20070C39A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2320FE5EECC05063A59001A1 /* Pods-Rudder-Kochava_Tests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = "";
@@ -586,8 +633,8 @@
 		};
 		6003F5C4195388D20070C39A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5DCC105AB92B9EC5620070E0 /* Pods-Rudder-Kochava_Tests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				DEVELOPMENT_TEAM = "";
