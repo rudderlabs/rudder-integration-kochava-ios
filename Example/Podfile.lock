@@ -1,23 +1,19 @@
 PODS:
-  - KochavaAdNetworkiOS (5.1.0):
-    - KochavaTrackeriOS (~> 5.1.0)
-  - KochavaCoreiOS (5.1.0)
-  - KochavaTrackeriOS (5.1.0):
-    - KochavaCoreiOS (~> 5.1.0)
-  - Rudder (1.5.2)
-  - Rudder-Kochava (1.0.0):
-    - KochavaAdNetworkiOS (= 5.1.0)
-    - KochavaTrackeriOS (= 5.1.0)
-    - Rudder (~> 1.0)
+  - Apple-Cocoapod-KochavaCore (7.1.0)
+  - Apple-Cocoapod-KochavaTracker (7.1.0):
+    - Apple-Cocoapod-KochavaCore (~> 7.1.0)
+  - Rudder (1.14.0)
+  - Rudder-Kochava (1.0.1):
+    - Apple-Cocoapod-KochavaTracker (~> 7.1)
+    - Rudder (~> 1.12)
 
 DEPENDENCIES:
   - Rudder-Kochava (from `../`)
 
 SPEC REPOS:
-  trunk:
-    - KochavaAdNetworkiOS
-    - KochavaCoreiOS
-    - KochavaTrackeriOS
+  https://github.com/CocoaPods/Specs.git:
+    - Apple-Cocoapod-KochavaCore
+    - Apple-Cocoapod-KochavaTracker
     - Rudder
 
 EXTERNAL SOURCES:
@@ -25,12 +21,11 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  KochavaAdNetworkiOS: 52421f2726710d2a70ad7aac11fbbdb135967b44
-  KochavaCoreiOS: 73320147501bf1c00ff88e8c18a3ad4b0587ca24
-  KochavaTrackeriOS: a325048a3c79d44bde252c42b82f16bbf3686dea
-  Rudder: 557cc105d77f365821d78403b1abacfd2e3018de
-  Rudder-Kochava: 28d5c48368e13e5b3d9c1671e3e57d5bd71a4252
+  Apple-Cocoapod-KochavaCore: b3ccbda07f1ac6480222d2379c13feb907cb488e
+  Apple-Cocoapod-KochavaTracker: ee5374b5d9ecd632d2ce52314c88e07d92c27195
+  Rudder: 41523d90e7f8040605ca6a803f662a538144c90f
+  Rudder-Kochava: da4dfe49358cebf69f74b6531d9a40082ae4530d
 
-PODFILE CHECKSUM: 541019898295418e450b064c3187a6848a46a318
+PODFILE CHECKSUM: b9767e75daaa64be73100bf7d4eddbf57e456a6d
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.0

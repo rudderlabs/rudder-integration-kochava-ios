@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Rudder/Rudder.h>
+#import <UserNotifications/UserNotifications.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(instancetype)initWithConfig:(NSDictionary *)config withAnalytics:(RSClient *)client withRudderConfig:(RSConfig*) rudderCinfig;
 - (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken;
-- (void)receivedRemoteNotification:(NSDictionary *)userInfo withActionString:(NSString*) actionString;
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler;
 
 @end
 

@@ -7,8 +7,8 @@
 
 #import "RudderKochavaIntegration.h"
 #import <Rudder/Rudder.h>
-#import <KochavaTrackeriOS/KochavaTracker.h>
-#import <KochavaAdNetworkiOS/KVAAdNetworkProduct.h>
+
+@import KochavaTracker;
 
 static NSDictionary *eventsMapping;
 
@@ -18,52 +18,38 @@ static NSDictionary *eventsMapping;
 
 - (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(RSClient *)client withRudderConfig:(RSConfig *)rudderConfig {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         [RSLogger logDebug:@"Initializing Kochava Factory"];
         [self setEventsMapping];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (config == nil)
-            {
-                [RSLogger logError:@"Failed to Initialize Kochava Factory as Config is null"];
+        if (config == nil) {
+            [RSLogger logError:@"Failed to Initialize Kochava Factory as Config is null"];
+        }
+        
+        self.appGUID = config[@"apiKey"];
+        if (self.appGUID!=nil) {
+            if ([[config objectForKey:@"appTrackingTransparency"] boolValue]) {
+                KVATracker.shared.appTrackingTransparency.enabledBool= YES;
             }
-            
-            self.appGUID = config[@"apiKey"];
-            if (self.appGUID!=nil)
-            {
-                if ([[config objectForKey:@"appTrackingTransparency"] boolValue])
-                {
-                    KVATracker.shared.appTrackingTransparency.enabledBool= YES;
-                }
-                if ([[config objectForKey:@"skAdNetwork"] boolValue])
-                {
-                    [KVAAdNetworkProduct.shared register];
-                }
-                [KVATracker.shared startWithAppGUIDString:self.appGUID];
-                [self setLogLevel : [rudderConfig logLevel]];
-                [RSLogger logDebug:@"Initialized Kochava Factory"];
-            }
-            else
-            {
-                [RSLogger logWarn:@"Failed to Initialize Kochava Factory"];
-            }
-        });
+            [KVATracker.shared startWithAppGUIDString:self.appGUID];
+            [self setLogLevel:rudderConfig.logLevel];
+            [RSLogger logDebug:@"Initialized Kochava Factory"];
+        }
+        else {
+            [RSLogger logWarn:@"Failed to Initialize Kochava Factory"];
+        }
     }
     return self;
 }
 
 - (void) dump:(RSMessage *)message {
-    @try
-    {
-        if (message != nil)
-        {
+    @try {
+        if (message != nil) {
             dispatch_async(dispatch_get_main_queue(),^{
                 [self processRudderEvent:message];
             });
         }
     }
-    @catch (NSException *ex)
-    {
+    @catch (NSException *ex) {
         [RSLogger logError:[[NSString alloc] initWithFormat:@"%@", ex]];
     }
 }
@@ -78,215 +64,163 @@ static NSDictionary *eventsMapping;
 
 - (void) processRudderEvent: (nonnull RSMessage *) message {
     NSString *type = message.type;
-    if ([type isEqualToString:@"track"])
-    {
-        if (message.event)
-        {
-            NSString* eventName = [message.event lowercaseString];
-            NSMutableDictionary<NSString*, NSObject*>* eventProperties = [message.properties mutableCopy];
+    if ([type isEqualToString:@"track"]) {
+        if (message.event) {
+            NSString* eventName = message.event;
+            NSMutableDictionary<NSString*, NSObject*>* eventProperties = [[NSMutableDictionary alloc] initWithDictionary:message.properties];
             KVAEvent *event;
-            if (eventsMapping[eventName])
-            {
+            if (eventsMapping[eventName]) {
                 event = [KVAEvent eventWithType:eventsMapping[eventName]];
-                if (eventProperties)
-                {
-                    if ([eventName isEqual:@"order completed"])
-                    {
+                if (eventProperties) {
+                    if ([eventName isEqual:ECommOrderCompleted]) {
                         [self setProductsProperties:eventProperties withEvent:event];
-                        if (eventProperties[@"revenue"])
-                        {
-                            event.priceDoubleNumber = (NSNumber*)eventProperties[@"revenue"];
-                            [eventProperties removeObjectForKey:@"revenue"];
+                        if (eventProperties[KeyRevenue]) {
+                            event.priceDoubleNumber = (NSNumber*)eventProperties[KeyRevenue];
+                            [eventProperties removeObjectForKey:KeyRevenue];
                         }
                         eventProperties = [self setCurrency:eventProperties withEvent:event];
                     }
-                    if ([eventName isEqual:@"product added"])
-                    {
+                    if ([eventName isEqual:ECommProductAdded]) {
                         
                         eventProperties = [self setProductProperties:eventProperties withEvent:event];
-                        if (eventProperties[@"quantity"])
-                        {
-                            event.quantityDoubleNumber = (NSNumber*)eventProperties[@"quantity"];
-                            [eventProperties removeObjectForKey:@"quantity"];
+                        if (eventProperties[KeyQuantity]) {
+                            event.quantityDoubleNumber = (NSNumber*)eventProperties[KeyQuantity];
+                            [eventProperties removeObjectForKey:KeyQuantity];
                         }
                     }
-                    if ([eventName isEqual:@"product added to wishlist"])
-                    {
+                    if ([eventName isEqual:ECommProductAddedToWishList]) {
                         eventProperties = [self setProductProperties:eventProperties withEvent:event];
                     }
-                    if ([eventName isEqual:@"checkout started"])
-                    {
+                    if ([eventName isEqual:ECommCheckoutStarted]) {
                         [self setProductsProperties:eventProperties withEvent:event];
                         eventProperties = [self setCurrency:eventProperties withEvent:event];
                     }
-                    if ([eventName isEqual:@"product reviewed"])
-                    {
-                        if (eventProperties[@"rating"])
-                        {
-                            event.ratingValueDoubleNumber = (NSNumber*)eventProperties[@"rating"];
-                            [eventProperties removeObjectForKey:@"rating"];
+                    if ([eventName isEqual:ECommProductReviewed]) {
+                        if (eventProperties[KeyRating]) {
+                            event.ratingValueDoubleNumber = (NSNumber*)eventProperties[KeyRating];
+                            [eventProperties removeObjectForKey:KeyRating];
                         }
                     }
-                    if ([eventName isEqual:@"products searched"])
-                    {
-                        if (eventProperties[@"query"])
-                        {
-                            event.uriString = (NSString*) eventProperties[@"query"];
-                            [eventProperties removeObjectForKey:@"query"];
+                    if ([eventName isEqual:ECommProductsSearched]) {
+                        if (eventProperties[KeyQuery]) {
+                            event.uriString = (NSString*) eventProperties[KeyQuery];
+                            [eventProperties removeObjectForKey:KeyQuery];
                         }
                     }
                 }
-            }
-            else
-            {
+            } else {
                 event = [KVAEvent customEventWithNameString:message.event];
             }
-            if (eventProperties)
-            {
+            if (eventProperties) {
                 event.infoDictionary = eventProperties;
             }
             [event send];
         }
-    }
-    else if ([type isEqualToString:@"screen"])
-    {
-        if (message.event)
-        {
-            if (message.properties)
-            {
+    } else if ([type isEqualToString:@"screen"]) {
+        if (message.event) {
+            if (message.properties) {
                 [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
                                                     message.event] infoDictionary:message.properties];
             }
-            else
-            {
+            else {
                 [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
                                                     message.event]];
             }
         }
-    }
-    else
-    {
+    } else {
         [RSLogger logDebug:@"Kochava Integration: Message type not supported"];
     }
 }
 
 #pragma mark- Push Notification methods
 
-- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
-{
+- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [KVAPushNotificationsToken registerWithData:deviceToken];
 }
 
-- (void)receivedRemoteNotification:(NSDictionary *)userInfo withActionString:(NSString*) actionString
-{
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
     KVAEvent *event = [KVAEvent eventWithType:KVAEventType.pushOpened];
-    event.payloadDictionary = userInfo;
-    event.actionString = actionString;
+    event.payloadDictionary = response.notification.request.content.userInfo;
+    event.actionString = response.actionIdentifier;
     [event send];
 }
 
 #pragma mark - Utils
 
--(void) setLogLevel:(int) rsLogLevel {
-    if (rsLogLevel == RSLogLevelVerbose)
-    {
+- (void) setLogLevel:(int) rsLogLevel {
+    if (rsLogLevel == RSLogLevelVerbose) {
         KVALog.shared.level = KVALogLevel.trace;
         return;
     }
-    if (rsLogLevel == RSLogLevelDebug)
-    {
+    if (rsLogLevel == RSLogLevelDebug) {
         KVALog.shared.level = KVALogLevel.debug;
         return;
     }
-    if (rsLogLevel == RSLogLevelInfo)
-    {
+    if (rsLogLevel == RSLogLevelInfo) {
         KVALog.shared.level = KVALogLevel.info;
         return;
     }
-    if (rsLogLevel == RSLogLevelWarning)
-    {
+    if (rsLogLevel == RSLogLevelWarning) {
         KVALog.shared.level = KVALogLevel.warn;
         return;
     }
-    if (rsLogLevel == RSLogLevelError)
-    {
+    if (rsLogLevel == RSLogLevelError) {
         KVALog.shared.level = KVALogLevel.error;
         return;
     }
     KVALog.shared.level = KVALogLevel.never;
 }
 
--(NSMutableDictionary*) setCurrency:(NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
-    if (eventProperties[@"currency"])
-    {
-        event.currencyString = (NSString*)eventProperties[@"currency"];
-        [eventProperties removeObjectForKey:@"currency"];
+- (NSMutableDictionary*) setCurrency:(NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
+    if (eventProperties[KeyCurrency]) {
+        event.currencyString = (NSString*)eventProperties[KeyCurrency];
+        [eventProperties removeObjectForKey:KeyCurrency];
     }
     return eventProperties;
 }
 
 
--(NSMutableDictionary*) setProductProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event{
-    if (eventProperties[@"name"])
-    {
+- (NSMutableDictionary*) setProductProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event{
+    if (eventProperties[@"name"]) {
         event.nameString = (NSString*)eventProperties[@"name"];
         [eventProperties removeObjectForKey:@"name"];
     }
-    if (eventProperties[@"product_id"])
-    {
-        event.contentIdString = (NSString*)eventProperties[@"product_id"];
-        [eventProperties removeObjectForKey:@"product_id"];
-        return eventProperties;
-    }
-    if (eventProperties[@"productId"])
-    {
-        event.contentIdString = (NSString*)eventProperties[@"productId"];
-        [eventProperties removeObjectForKey:@"productId"];
+    if (eventProperties[KeyProductId]) {
+        event.contentIdString = (NSString*)eventProperties[KeyProductId];
+        [eventProperties removeObjectForKey:KeyProductId];
     }
     return eventProperties;
 }
 
--(void) setProductsProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
-    if (eventProperties[@"products"])
-    {
-        NSArray *products = eventProperties[@"products"];
+- (void) setProductsProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
+    if (eventProperties[KeyProducts]) {
+        NSArray *products = eventProperties[KeyProducts];
         NSString* productNames = [self getProductProperties:products type:@"name"];
-        if (productNames)
-        {
+        if (productNames) {
             event.nameString = productNames;
         }
-        NSString* productIds = [self getProductProperties:products type:@"product_id"];
-        if (productIds)
-        {
+        NSString* productIds = [self getProductProperties:products type:KeyProductId];
+        if (productIds) {
             event.contentIdString = productIds;
         }
-        [eventProperties removeObjectForKey:@"products"];
+        [eventProperties removeObjectForKey:KeyProducts];
     }
 }
 
-- (NSString*) getProductProperties: (NSArray*) products type:(NSString*) type
-{
+- (NSString*) getProductProperties: (NSArray*) products type:(NSString*) type {
     NSMutableArray<NSString*>* productProperties = [[NSMutableArray alloc] init];
-    if (products)
-    {
-        for(NSDictionary *product in products)
-        {
-            if (product[type])
-            {
+    if (products) {
+        for(NSDictionary *product in products) {
+            if (product[type]) {
                 [productProperties addObject:product[type]];
-            }
-            if ([type isEqual:@"product_id"] && product[@"productId"])
-            {
-                [productProperties addObject:product[@"productId"]];
             }
         }
     }
     return [self getJsonString:productProperties];
 }
 
--(NSString*) getJsonString:(NSMutableArray<NSString*>*) mutableArray {
-    if (![mutableArray count])
-    {
+- (NSString*) getJsonString:(NSMutableArray<NSString*>*) mutableArray {
+    if (![mutableArray count]) {
         return nil;
     }
     NSError* error = nil;
@@ -295,15 +229,16 @@ static NSDictionary *eventsMapping;
     return jsonString;
 }
 
--(void) setEventsMapping{
+- (void) setEventsMapping{
     eventsMapping =
     @{
-        @"product added": KVAEventType.addToCart,
-        @"product added to wishlist": KVAEventType.addToWishList,
-        @"checkout started": KVAEventType.checkoutStart,
-        @"order completed": KVAEventType.purchase,
-        @"product reviewed": KVAEventType.rating,
-        @"products searched": KVAEventType.search
+        ECommProductAdded: KVAEventType.addToCart,
+        ECommProductAddedToWishList: KVAEventType.addToWishList,
+        ECommCheckoutStarted: KVAEventType.checkoutStart,
+        ECommOrderCompleted: KVAEventType.purchase,
+        ECommProductReviewed: KVAEventType.rating,
+        ECommProductsSearched: KVAEventType.search,
+        ECommProductViewed: KVAEventType.view
     };
 }
 
