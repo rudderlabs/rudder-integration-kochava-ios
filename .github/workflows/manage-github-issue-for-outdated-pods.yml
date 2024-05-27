@@ -1,8 +1,8 @@
 name: Check outdate pod and create issue
 
-on: 
+on:
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: "0 0 * * 1"
   workflow_dispatch:
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
           outdated-pod-names: "KochavaTrackeriOS, KochavaAdNetworkiOS"
           directory: "Example"
           title: "fix: update Kochava SDK to the latest version"
-          assignee: "desusai7"
+          assignee: "@rudderlabs/sdk-ios"
           labels: "outdatedPod"
           color: "FBCA04"
         env:
