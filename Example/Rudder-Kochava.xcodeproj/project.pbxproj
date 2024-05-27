@@ -23,7 +23,6 @@
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		9EACA14DD0B505109822B273 /* Pods_Rudder_Kochava_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43337BD6B6DE153511771809 /* Pods_Rudder_Kochava_Example.framework */; };
-		ED5EDCCC29EEFF07000203EE /* RudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED5EDCC929EEFF07000203EE /* RudderConfig.plist */; };
 		ED5EDCCD29EEFF07000203EE /* SampleRudderConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED5EDCCA29EEFF07000203EE /* SampleRudderConfig.plist */; };
 		ED5EDCCE29EEFF07000203EE /* RudderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED5EDCCB29EEFF07000203EE /* RudderConfig.swift */; };
 /* End PBXBuildFile section */
@@ -81,7 +80,6 @@
 		ED5EDCC329EEFD77000203EE /* pull_request_template.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = pull_request_template.md; sourceTree = "<group>"; };
 		ED5EDCC429EEFD77000203EE /* dependabot.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = dependabot.yml; sourceTree = "<group>"; };
 		ED5EDCC529EEFEDD000203EE /* Rudder-Kochava_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Rudder-Kochava_Example-Bridging-Header.h"; sourceTree = "<group>"; };
-		ED5EDCC929EEFF07000203EE /* RudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RudderConfig.plist; sourceTree = "<group>"; };
 		ED5EDCCA29EEFF07000203EE /* SampleRudderConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleRudderConfig.plist; sourceTree = "<group>"; };
 		ED5EDCCB29EEFF07000203EE /* RudderConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RudderConfig.swift; sourceTree = "<group>"; };
 		F65AEE83264C1D5700DA1A74 /* Rudder-Kochava_Example.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Rudder-Kochava_Example.entitlements"; sourceTree = "<group>"; };
@@ -246,7 +244,6 @@
 		ED5EDCC829EEFF07000203EE /* RudderConfig */ = {
 			isa = PBXGroup;
 			children = (
-				ED5EDCC929EEFF07000203EE /* RudderConfig.plist */,
 				ED5EDCCA29EEFF07000203EE /* SampleRudderConfig.plist */,
 				ED5EDCCB29EEFF07000203EE /* RudderConfig.swift */,
 			);
@@ -337,7 +334,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
-				ED5EDCCC29EEFF07000203EE /* RudderConfig.plist in Resources */,
 				ED5EDCCD29EEFF07000203EE /* SampleRudderConfig.plist in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
