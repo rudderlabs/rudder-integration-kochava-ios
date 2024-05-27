@@ -27,11 +27,11 @@ static NSDictionary *eventsMapping;
         
         self.appGUID = config[@"apiKey"];
         if (self.appGUID!=nil) {
+            [self setLogLevel:rudderConfig.logLevel];
             if ([[config objectForKey:@"appTrackingTransparency"] boolValue]) {
-                KVATracker.shared.appTrackingTransparency.enabledBool= YES;
+                KVATracker.shared.appTrackingTransparency.enabledBool = YES;
             }
             [KVATracker.shared startWithAppGUIDString:self.appGUID];
-            [self setLogLevel:rudderConfig.logLevel];
             [RSLogger logDebug:@"Initialized Kochava Factory"];
         }
         else {
@@ -55,7 +55,8 @@ static NSDictionary *eventsMapping;
 }
 
 - (void)reset {
-    [RSLogger logDebug:@"Kochava Factory doesn't support Reset Call"];
+    [KVAEventDefaultParameter registerWithUserIdString:nil];
+    [RSLogger logDebug:@"Kochava reset api is called."];
 }
 
 - (void)flush {
@@ -64,15 +65,22 @@ static NSDictionary *eventsMapping;
 
 - (void) processRudderEvent: (nonnull RSMessage *) message {
     NSString *type = message.type;
-    if ([type isEqualToString:@"track"]) {
+    if ([type isEqualToString:@"identify"]) {
+        NSString *userId = message.userId;
+        if (userId != nil && userId.length == 0) {
+            [KVAEventDefaultParameter registerWithUserIdString:message.userId];
+            [RSLogger logInfo:[NSString stringWithFormat:@"User ID: %@ is set successfully in Kochava", userId]];
+        }
+    } else if ([type isEqualToString:@"track"]) {
         if (message.event) {
-            NSString* eventName = message.event;
+            NSString* eventName = [message.event lowercaseString];
             NSMutableDictionary<NSString*, NSObject*>* eventProperties = [[NSMutableDictionary alloc] initWithDictionary:message.properties];
             KVAEvent *event;
+            // Standard ECommerce Events
             if (eventsMapping[eventName]) {
                 event = [KVAEvent eventWithType:eventsMapping[eventName]];
                 if (eventProperties) {
-                    if ([eventName isEqual:ECommOrderCompleted]) {
+                    if ([eventName isEqual:@"order completed"]) {
                         [self setProductsProperties:eventProperties withEvent:event];
                         if (eventProperties[KeyRevenue]) {
                             event.priceDoubleNumber = (NSNumber*)eventProperties[KeyRevenue];
@@ -80,28 +88,27 @@ static NSDictionary *eventsMapping;
                         }
                         eventProperties = [self setCurrency:eventProperties withEvent:event];
                     }
-                    if ([eventName isEqual:ECommProductAdded]) {
-                        
+                    if ([eventName isEqual:@"product added"]) {
                         eventProperties = [self setProductProperties:eventProperties withEvent:event];
                         if (eventProperties[KeyQuantity]) {
                             event.quantityDoubleNumber = (NSNumber*)eventProperties[KeyQuantity];
                             [eventProperties removeObjectForKey:KeyQuantity];
                         }
                     }
-                    if ([eventName isEqual:ECommProductAddedToWishList]) {
+                    if ([eventName isEqual:@"product added to wishlist"]) {
                         eventProperties = [self setProductProperties:eventProperties withEvent:event];
                     }
-                    if ([eventName isEqual:ECommCheckoutStarted]) {
+                    if ([eventName isEqual:@"checkout started"]) {
                         [self setProductsProperties:eventProperties withEvent:event];
                         eventProperties = [self setCurrency:eventProperties withEvent:event];
                     }
-                    if ([eventName isEqual:ECommProductReviewed]) {
+                    if ([eventName isEqual:@"product reviewed"]) {
                         if (eventProperties[KeyRating]) {
                             event.ratingValueDoubleNumber = (NSNumber*)eventProperties[KeyRating];
                             [eventProperties removeObjectForKey:KeyRating];
                         }
                     }
-                    if ([eventName isEqual:ECommProductsSearched]) {
+                    if ([eventName isEqual:@"products searched"]) {
                         if (eventProperties[KeyQuery]) {
                             event.uriString = (NSString*) eventProperties[KeyQuery];
                             [eventProperties removeObjectForKey:KeyQuery];
@@ -180,43 +187,54 @@ static NSDictionary *eventsMapping;
 }
 
 
-- (NSMutableDictionary*) setProductProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event{
+- (NSMutableDictionary*) setProductProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
     if (eventProperties[@"name"]) {
         event.nameString = (NSString*)eventProperties[@"name"];
         [eventProperties removeObjectForKey:@"name"];
     }
-    if (eventProperties[KeyProductId]) {
-        event.contentIdString = (NSString*)eventProperties[KeyProductId];
-        [eventProperties removeObjectForKey:KeyProductId];
+    if (eventProperties[@"product_id"]) {
+        event.contentIdString = (NSString*)eventProperties[@"product_id"];
+        [eventProperties removeObjectForKey:@"product_id"];
+        return eventProperties;
+    }
+    if (eventProperties[@"productId"]) {
+        event.contentIdString = (NSString*)eventProperties[@"productId"];
+        [eventProperties removeObjectForKey:@"productId"];
     }
     return eventProperties;
 }
 
 - (void) setProductsProperties: (NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
     if (eventProperties[KeyProducts]) {
+        NSMutableArray<NSString*>* nameProperties = [[NSMutableArray alloc] init];
+        NSMutableArray<NSString*>* productIdProperties = [[NSMutableArray alloc] init];
+        
         NSArray *products = eventProperties[KeyProducts];
-        NSString* productNames = [self getProductProperties:products type:@"name"];
+        if (products) {
+            for(NSDictionary *product in products) {
+                if (product[@"name"]) {
+                    [nameProperties addObject:product[@"name"]];
+                }
+                
+                if (product[@"product_id"]) {
+                    [productIdProperties addObject:product[@"product_id"]];
+                } else if (product[@"productId"]) {
+                    [productIdProperties addObject:product[@"productId"]];
+                }
+            }
+        }
+        
+        NSString* productNames = [self getJsonString:nameProperties];
         if (productNames) {
             event.nameString = productNames;
         }
-        NSString* productIds = [self getProductProperties:products type:KeyProductId];
+        NSString* productIds = [self getJsonString:productIdProperties];
         if (productIds) {
             event.contentIdString = productIds;
         }
+        
         [eventProperties removeObjectForKey:KeyProducts];
     }
-}
-
-- (NSString*) getProductProperties: (NSArray*) products type:(NSString*) type {
-    NSMutableArray<NSString*>* productProperties = [[NSMutableArray alloc] init];
-    if (products) {
-        for(NSDictionary *product in products) {
-            if (product[type]) {
-                [productProperties addObject:product[type]];
-            }
-        }
-    }
-    return [self getJsonString:productProperties];
 }
 
 - (NSString*) getJsonString:(NSMutableArray<NSString*>*) mutableArray {
@@ -232,13 +250,12 @@ static NSDictionary *eventsMapping;
 - (void) setEventsMapping{
     eventsMapping =
     @{
-        ECommProductAdded: KVAEventType.addToCart,
-        ECommProductAddedToWishList: KVAEventType.addToWishList,
-        ECommCheckoutStarted: KVAEventType.checkoutStart,
-        ECommOrderCompleted: KVAEventType.purchase,
-        ECommProductReviewed: KVAEventType.rating,
-        ECommProductsSearched: KVAEventType.search,
-        ECommProductViewed: KVAEventType.view
+        @"product added": KVAEventType.addToCart,
+        @"product added to wishlist": KVAEventType.addToWishList,
+        @"checkout started": KVAEventType.checkoutStart,
+        @"order completed": KVAEventType.purchase,
+        @"product reviewed": KVAEventType.rating,
+        @"products searched": KVAEventType.search
     };
 }
 
