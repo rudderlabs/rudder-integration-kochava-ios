@@ -2,8 +2,8 @@ require 'json'
 
 package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
-kochava_sdk_version = '~> 7.1'
-rudder_sdk_version = '~> 1.12'
+kochava_sdk_version = '~> 7.5.0'
+rudder_sdk_version = '~> 1.26'
 
 Pod::Spec.new do |s|
   s.name             = 'Rudder-Kochava'

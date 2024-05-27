@@ -363,13 +363,19 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-Rudder-Kochava_Example/Pods-Rudder-Kochava_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/MetricsReporter/MetricsReporter.framework",
+				"${BUILT_PRODUCTS_DIR}/RSCrashReporter/RSCrashReporter.framework",
 				"${BUILT_PRODUCTS_DIR}/Rudder/Rudder.framework",
+				"${BUILT_PRODUCTS_DIR}/RudderKit/RudderKit.framework",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Apple-Cocoapod-KochavaCore/KochavaCore.framework/KochavaCore",
 				"${PODS_XCFRAMEWORKS_BUILD_DIR}/Apple-Cocoapod-KochavaTracker/KochavaTracker.framework/KochavaTracker",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MetricsReporter.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RSCrashReporter.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rudder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RudderKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KochavaCore.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KochavaTracker.framework",
 			);
