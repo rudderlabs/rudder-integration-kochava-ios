@@ -44,9 +44,7 @@ static NSDictionary *eventsMapping;
 - (void) dump:(RSMessage *)message {
     @try {
         if (message != nil) {
-            dispatch_async(dispatch_get_main_queue(),^{
-                [self processRudderEvent:message];
-            });
+            [self processRudderEvent:message];
         }
     }
     @catch (NSException *ex) {
