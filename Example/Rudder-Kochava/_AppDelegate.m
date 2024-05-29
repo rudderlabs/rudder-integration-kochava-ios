@@ -9,9 +9,6 @@
 #import "_AppDelegate.h"
 #import <Rudder/Rudder.h>
 #import <RudderKochavaFactory.h>
-#import <RudderKochavaIntegration.h>
-#import <CoreLocation/CoreLocation.h>
-#import <UserNotifications/UserNotifications.h>
 #import "Rudder_Kochava_Example-Swift.h"
 
 @implementation _AppDelegate
