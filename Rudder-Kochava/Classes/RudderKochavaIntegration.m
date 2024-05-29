@@ -67,7 +67,7 @@ static NSDictionary *eventsMapping;
     NSString *type = message.type;
     if ([type isEqualToString:@"identify"]) {
         NSString *userId = message.userId;
-        if (userId != nil && userId.length == 0) {
+        if (userId != nil) {
             [KVAEventDefaultParameter registerWithUserIdString:message.userId];
             [RSLogger logInfo:[NSString stringWithFormat:@"User ID: %@ is set successfully in Kochava", userId]];
         }
