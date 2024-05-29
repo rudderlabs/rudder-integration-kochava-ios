@@ -19,24 +19,7 @@ static NSDictionary *eventsMapping;
 - (instancetype) initWithConfig:(NSDictionary *)config withAnalytics:(RSClient *)client withRudderConfig:(RSConfig *)rudderConfig {
     self = [super init];
     if (self) {
-        [RSLogger logDebug:@"Initializing Kochava Factory"];
         [self setEventsMapping];
-        if (config == nil) {
-            [RSLogger logError:@"Failed to Initialize Kochava Factory as Config is null"];
-        }
-        
-        self.appGUID = config[@"apiKey"];
-        if (self.appGUID!=nil) {
-            [self setLogLevel:rudderConfig.logLevel];
-            if ([[config objectForKey:@"appTrackingTransparency"] boolValue]) {
-                KVATracker.shared.appTrackingTransparency.enabledBool = YES;
-            }
-            [KVATracker.shared startWithAppGUIDString:self.appGUID];
-            [RSLogger logDebug:@"Initialized Kochava Factory"];
-        }
-        else {
-            [RSLogger logWarn:@"Failed to Initialize Kochava Factory"];
-        }
     }
     return self;
 }
@@ -138,30 +121,6 @@ static NSDictionary *eventsMapping;
 }
 
 #pragma mark - Utils
-
-- (void) setLogLevel:(int) rsLogLevel {
-    if (rsLogLevel == RSLogLevelVerbose) {
-        KVALog.shared.level = KVALogLevel.trace;
-        return;
-    }
-    if (rsLogLevel == RSLogLevelDebug) {
-        KVALog.shared.level = KVALogLevel.debug;
-        return;
-    }
-    if (rsLogLevel == RSLogLevelInfo) {
-        KVALog.shared.level = KVALogLevel.info;
-        return;
-    }
-    if (rsLogLevel == RSLogLevelWarning) {
-        KVALog.shared.level = KVALogLevel.warn;
-        return;
-    }
-    if (rsLogLevel == RSLogLevelError) {
-        KVALog.shared.level = KVALogLevel.error;
-        return;
-    }
-    KVALog.shared.level = KVALogLevel.never;
-}
 
 - (NSMutableDictionary*) setCurrency:(NSMutableDictionary*) eventProperties withEvent: (KVAEvent*) event {
     if (eventProperties[KeyCurrency]) {

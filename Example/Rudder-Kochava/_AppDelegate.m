@@ -10,11 +10,15 @@
 #import <Rudder/Rudder.h>
 #import <RudderKochavaFactory.h>
 #import "Rudder_Kochava_Example-Swift.h"
+@import KochavaTracker;
 
 @implementation _AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    // Initialise the Kochava SDK
+    [self initKochavaSDK];
     
     /// Copy the `SampleRudderConfig.plist` and rename it to`RudderConfig.plist` on the same directory.
     /// Update the values as per your need.
@@ -34,6 +38,13 @@
     }
     
     return YES;
+}
+
+-(void) initKochavaSDK {
+    // https://support.kochava.com/sdk-integration/ios-sdk-integration/
+    KVALog.shared.level = KVALogLevel.trace;
+    KVATracker.shared.appTrackingTransparency.enabledBool = YES;
+    [KVATracker.shared startWithAppGUIDString:@"_YOUR_APP_GUID_"];
 }
 
 
