@@ -6,11 +6,10 @@
 //  Copyright (c) 2021 Desu Sai Venkat. All rights reserved.
 //
 
-#import <UserNotifications/UserNotifications.h>
 
 @import UIKit;
 
-@interface _AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate>
+@interface _AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
