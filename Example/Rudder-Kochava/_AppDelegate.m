@@ -29,11 +29,9 @@
         if (rudderConfig != nil) {
             RSConfigBuilder *configBuilder = [[RSConfigBuilder alloc] init];
             [configBuilder withDataPlaneUrl:rudderConfig.DEV_DATA_PLANE_URL];
-            [configBuilder withControlPlaneUrl:rudderConfig.DEV_CONTROL_PLANE_URL];
             [configBuilder withLoglevel:RSLogLevelVerbose];
             [configBuilder withFactory:[RudderKochavaFactory instance]];
-            [configBuilder withTrackLifecycleEvens:NO];
-            [configBuilder withSleepTimeOut:3];
+            [configBuilder withTrackLifecycleEvens:YES];
             [RSClient getInstance:rudderConfig.WRITE_KEY config:[configBuilder build]];
         }
     }

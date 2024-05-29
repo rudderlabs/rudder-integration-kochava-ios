@@ -6,7 +6,6 @@
 //  Copyright (c) 2021 Desu Sai Venkat. All rights reserved.
 //
 
-
 @import UIKit;
 
 @interface _AppDelegate : UIResponder <UIApplicationDelegate>
