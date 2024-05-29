@@ -38,17 +38,7 @@
             [RSClient getInstance:rudderConfig.WRITE_KEY config:[configBuilder build]];
         }
     }
-        
-    // register for push notifications
-    UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-    center.delegate = self;
-    [center requestAuthorizationWithOptions:(UNAuthorizationOptionAlert | UNAuthorizationOptionSound | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
-        if (granted) {
-            dispatch_async(dispatch_get_main_queue(), ^(void) {
-                [[UIApplication sharedApplication] registerForRemoteNotifications];
-            });
-        }
-    }];
+    
     return YES;
 }
 
@@ -74,18 +64,5 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
-
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [[RudderKochavaIntegration alloc] registeredForRemoteNotificationsWithDeviceToken:deviceToken];
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
-    completionHandler(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge);
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
-    [[RudderKochavaIntegration alloc] userNotificationCenter:center didReceiveNotificationResponse:response withCompletionHandler:completionHandler];
-}
-
 
 @end

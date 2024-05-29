@@ -139,19 +139,6 @@ static NSDictionary *eventsMapping;
     }
 }
 
-#pragma mark- Push Notification methods
-
-- (void)registeredForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [KVAPushNotificationsToken registerWithData:deviceToken];
-}
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler {
-    KVAEvent *event = [KVAEvent eventWithType:KVAEventType.pushOpened];
-    event.payloadDictionary = response.notification.request.content.userInfo;
-    event.actionString = response.actionIdentifier;
-    [event send];
-}
-
 #pragma mark - Utils
 
 - (void) setLogLevel:(int) rsLogLevel {
