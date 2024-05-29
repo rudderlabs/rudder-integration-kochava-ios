@@ -76,7 +76,7 @@ static NSDictionary *eventsMapping;
             KVAEvent *event;
             // Standard ECommerce Events
             if (eventsMapping[eventName]) {
-                event = [KVAEvent eventWithType:eventsMapping[eventName]];
+                event = [[KVAEvent alloc] initWithType:eventsMapping[eventName]];
                 if (eventProperties) {
                     if ([eventName isEqual:@"order completed"]) {
                         [self setProductsProperties:eventProperties withEvent:event];
@@ -114,7 +114,7 @@ static NSDictionary *eventsMapping;
                     }
                 }
             } else {
-                event = [KVAEvent customEventWithNameString:message.event];
+                event = [[KVAEvent alloc] initCustomWithEventName:message.event];
             }
             if (eventProperties) {
                 event.infoDictionary = eventProperties;
@@ -124,11 +124,11 @@ static NSDictionary *eventsMapping;
     } else if ([type isEqualToString:@"screen"]) {
         if (message.event) {
             if (message.properties) {
-                [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
+                [KVAEvent sendCustomWithEventName:[NSString stringWithFormat:@"screen view %@",
                                                     message.event] infoDictionary:message.properties];
             }
             else {
-                [KVAEvent sendCustomWithNameString:[NSString stringWithFormat:@"screen view %@",
+                [KVAEvent sendCustomWithEventName:[NSString stringWithFormat:@"screen view %@",
                                                     message.event]];
             }
         }
