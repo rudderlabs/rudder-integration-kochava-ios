@@ -1,16 +1,16 @@
 PODS:
-  - Apple-Cocoapod-KochavaCore (7.5.0)
-  - Apple-Cocoapod-KochavaTracker (7.5.0):
-    - Apple-Cocoapod-KochavaCore (~> 7.5.0)
-  - MetricsReporter (1.2.1):
+  - Apple-Cocoapod-KochavaCore (7.6.0)
+  - Apple-Cocoapod-KochavaTracker (7.6.0):
+    - Apple-Cocoapod-KochavaCore (~> 7.6.0)
+  - MetricsReporter (2.0.0):
     - RSCrashReporter (= 1.0.1)
     - RudderKit (= 1.4.0)
   - RSCrashReporter (1.0.1)
-  - Rudder (1.26.3):
-    - MetricsReporter (= 1.2.1)
+  - Rudder (1.29.1):
+    - MetricsReporter (= 2.0.0)
   - Rudder-Kochava (1.0.1):
-    - Apple-Cocoapod-KochavaTracker (~> 7.5.0)
-    - Rudder (~> 1.26)
+    - Apple-Cocoapod-KochavaTracker (~> 7.6.0)
+    - Rudder (~> 1.29)
   - RudderKit (1.4.0)
 
 DEPENDENCIES:
@@ -30,14 +30,14 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Apple-Cocoapod-KochavaCore: ff1da4276c3921340a66f95cae76269a6352b2fb
-  Apple-Cocoapod-KochavaTracker: 5c0101eb931f4fa477af81bfc1b5e5970ea6fd95
-  MetricsReporter: 99596ee5003c69949ed2f50acc34aee83c42f843
+  Apple-Cocoapod-KochavaCore: b28f817d162ff95e913d29c228df7a58a90e1c02
+  Apple-Cocoapod-KochavaTracker: f9bf2ec1be118512f747e2350f4355a54994e246
+  MetricsReporter: 364b98791e868b10e9d512eb50af28d8c11e5cdb
   RSCrashReporter: 6b8376ac729b0289ebe0908553e5f56d8171f313
-  Rudder: 23456f79749849870e18c45bd250d6e2229a7147
-  Rudder-Kochava: 7aad1dbe1ce418e225c9de1bd4f2a472f87d6cf4
+  Rudder: 731095848aee39d27ff5d0e78233aa5ad8febb0b
+  Rudder-Kochava: ff983c50a8471fa8e5cea4ae965002d30b61989e
   RudderKit: f272f9872183946452ac94cd7bb2244a71e6ca8f
 
 PODFILE CHECKSUM: b9767e75daaa64be73100bf7d4eddbf57e456a6d
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.15.2
