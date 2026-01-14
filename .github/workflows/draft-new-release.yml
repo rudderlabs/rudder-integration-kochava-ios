@@ -1,7 +1,6 @@
 name: Draft new release
 
-on:
-  workflow_dispatch
+on: workflow_dispatch
 
 permissions:
   contents: read
@@ -12,7 +11,7 @@ jobs:
       contents: write  # for Git to git push
     name: Draft a new release
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/heads/fix/') || startsWith(github.ref, 'refs/heads/feature/')
+    if: startsWith(github.ref, 'refs/heads/fix/') || startsWith(github.ref, 'refs/heads/feat/')
     steps:
       - name: Harden the runner (Audit all outbound calls)
         uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
@@ -28,7 +27,7 @@ jobs:
         uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3.9.1
         with:
           node-version: 16
-          
+
       # In order to make a commit, we need to initialize a user.
       # You may choose to write something less generic here if you want, it doesn't matter functionality wise.
       - name: Initialize mandatory git config
@@ -47,7 +46,7 @@ jobs:
           git fetch origin master --depth=1
           git merge origin/master
           current_version=$(jq -r .version package.json)
-          
+
           npx standard-version --skip.commit --skip.tag --skip.changelog
           new_version=$(jq -r .version package.json)
           git reset --hard
@@ -61,7 +60,7 @@ jobs:
           echo "New release branch name is $branch_name"
           git checkout -b "$branch_name"
           git push --set-upstream origin "$branch_name"
-          
+
           echo "source_branch_name=$source_branch_name" >> $GITHUB_OUTPUT
           echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
           echo "new_version=$new_version" >> $GITHUB_OUTPUT
@@ -92,8 +91,8 @@ jobs:
         uses: repo-sync/pull-request@7e79a9f5dc3ad0ce53138f01df2fad14a04831c5 # v2.12.1
         with:
           source_branch: ${{ steps.create-release.outputs.branch_name }}
-          destination_branch: 'master'
+          destination_branch: "master"
           github_token: ${{ secrets.PAT }}
           pr_title: "chore(release): pulling ${{ steps.create-release.outputs.branch_name }} into master"
           pr_body: ":crown: *An automated PR*\n\n${{ steps.finish-release.outputs.commit_summary }}"
-          pr_reviewer: 'pallabmaiti'
+          pr_reviewer: "@rudderlabs/sdk-ios"
