@@ -33,7 +33,7 @@ jobs:
         env:
           BRANCH_NAME: ${{ github.event.pull_request.head.ref }}
         run: |
-          VERSION=${BRANCH_NAME#release/}
+          VERSION="${BRANCH_NAME#release/}"
           echo "release_version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Checkout source branch
