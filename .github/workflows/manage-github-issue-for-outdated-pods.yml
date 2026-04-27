@@ -1,9 +1,13 @@
 name: Check outdate pod and create issue
 
-on: 
+on:
   schedule:
     - cron: '0 0 * * 1'
   workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
 
 jobs:
   check-outdated-pods:
