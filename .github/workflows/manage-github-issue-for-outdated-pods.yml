@@ -25,7 +25,7 @@ jobs:
         id: check-outdated-pods-and-create-issue
         uses: rudderlabs/github-action-updated-pods-notifier@410c04199bc9e6d1123058bfc19e109311959ba6 # v1.0.0
         with:
-          outdated-pod-names: "Apple-Cocoapod-KochavaTracker"
+          outdated-pod-names: "KochavaTrackeriOS, KochavaAdNetworkiOS"
           directory: "Example"
           title: "fix: update Kochava SDK to the latest version"
           assignee: "desusai7"

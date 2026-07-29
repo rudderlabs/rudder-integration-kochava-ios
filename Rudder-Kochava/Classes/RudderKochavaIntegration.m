@@ -7,7 +7,8 @@
 
 #import "RudderKochavaIntegration.h"
 #import <Rudder/Rudder.h>
-#import <KochavaTracker/KochavaTracker.h>
+#import <KochavaTrackeriOS/KochavaTracker.h>
+#import <KochavaAdNetworkiOS/KVAAdNetworkProduct.h>
 
 static NSDictionary *eventsMapping;
 
@@ -33,6 +34,10 @@ static NSDictionary *eventsMapping;
                 if ([[config objectForKey:@"appTrackingTransparency"] boolValue])
                 {
                     KVATracker.shared.appTrackingTransparency.enabledBool= YES;
+                }
+                if ([[config objectForKey:@"skAdNetwork"] boolValue])
+                {
+                    [KVAAdNetworkProduct.shared register];
                 }
                 [KVATracker.shared startWithAppGUIDString:self.appGUID];
                 [self setLogLevel : [rudderConfig logLevel]];
