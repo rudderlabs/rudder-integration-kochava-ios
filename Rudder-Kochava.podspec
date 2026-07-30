@@ -15,7 +15,6 @@ Rudder is a platform for collecting, storing and routing customer event data to 
   s.license          = { :type => "ELv2", :file => "LICENSE.md" }
   s.author           = { 'RudderStack' => 'venkat@rudderstack.com' }
   s.source           = { :git => 'https://github.com/rudderlabs/rudder-integration-kochava-ios.git', :tag => "v#{s.version}" }
-  s.platform         = :ios, "12.4"
   s.ios.deployment_target = '12.4'
 
   ## Ref: https://github.com/CocoaPods/CocoaPods/issues/10065
